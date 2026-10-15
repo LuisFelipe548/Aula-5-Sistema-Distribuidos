@@ -40,3 +40,40 @@ PS C:\Users\aluno\Desktop\Aula5>  c:; cd 'c:\Users\aluno\Desktop\Aula5'; & 'C:\P
 Saldo esperado: 500
 Saldo obtido: 950
 PS C:\Users\aluno\Desktop\Aula5> 
+
+Codigo sincronizado.py
+
+import threading
+import time
+
+saldo = 1000
+lock = threading.Lock()
+
+def sacar(valor):
+    global saldo
+
+    with lock:
+        saldo_atual = saldo
+        time.sleep(0.01)
+        saldo = saldo_atual - valor
+
+threads = []
+
+
+print("Saldo esperado: 500")
+print("Saldo obtido:", saldo)
+
+for i in range(10):
+    t = threading.Thread(target=sacar, args=(50,))
+    threads.append(t)
+    t.start()
+
+for t in threads:
+    t.join()
+
+
+Resultado:  exe' 'c:\Users\aluno\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\launcher' '55943' '--' 'C:\Users\aluno\Desktop\Aula5\sincronizado.py' 
+Saldo esperado: 500
+Saldo obtido: 1000
+PS C:\Users\aluno\Desktop\Aula5> ^C
+PS C:\Users\aluno\Desktop\Aula5> 
